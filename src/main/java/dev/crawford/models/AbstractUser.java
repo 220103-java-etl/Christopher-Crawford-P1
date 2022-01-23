@@ -1,4 +1,4 @@
-package com.revature.models;
+package dev.crawford.models;
 
 import java.util.Objects;
 
@@ -14,23 +14,38 @@ import java.util.Objects;
  *     <li>Role</li>
  * </ul>
  *
- * Additional fields can be added to the concrete {@link com.revature.models.User} class.
+ * Additional fields can be added to the concrete {@link dev.crawford.models.User} class.
  *
  * @author Center of Excellence
  */
 
 public class AbstractUser {
 
-    private int id;
+    protected int id;
     private String username;
     private String password;
-    private Role role;
+    private String role;
 
     public AbstractUser() {
         super();
     }
 
-    public AbstractUser(int id, String username, String password, Role role) {
+    public AbstractUser(int id, String username, String password, String role) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public AbstractUser(int id, String firstName, String lastName, String username, String password) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public AbstractUser(int id, String firstName, String lastName, String username, String password, String role) {
         super();
         this.id = id;
         this.username = username;
@@ -62,11 +77,11 @@ public class AbstractUser {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -75,7 +90,7 @@ public class AbstractUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractUser that = (AbstractUser) o;
-        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && role == that.role;
+        return id == that.id && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(role, that.role);
     }
 
     @Override

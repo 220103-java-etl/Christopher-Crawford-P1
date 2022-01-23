@@ -4,6 +4,8 @@ package com.revature.util;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import dev.crawford.util.ConnectionFactory;
+
 import java.sql.Connection;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
