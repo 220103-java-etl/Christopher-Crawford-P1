@@ -1,4 +1,4 @@
-package com.revature.exceptions;
+package dev.crawford.exceptions;
 
 public class RegistrationUnsuccessfulException extends RuntimeException {
 

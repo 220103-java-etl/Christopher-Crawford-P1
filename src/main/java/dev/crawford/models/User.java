@@ -1,4 +1,4 @@
-package com.revature.models;
+package dev.crawford.models;
 
 /**
  * This concrete User class can include additional fields that can be used for
@@ -21,10 +21,14 @@ public class User extends AbstractUser {
     }
 
     /**
-     * This includes the minimum parameters needed for the {@link com.revature.models.AbstractUser} class.
+     * This includes the minimum parameters needed for the {@link dev.crawford.models.AbstractUser} class.
      * If other fields are needed, please create additional constructors.
      */
-    public User(int id, String username, String password, Role role) {
+    public User(int id, String username, String password, String role) {
         super(id, username, password, role);
+    }
+
+    public User(int id, String firstName, String lastName, String username, String password, String role) {
+        super(id, firstName, lastName, username, password, role);
     }
 }

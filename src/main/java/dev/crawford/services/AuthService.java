@@ -1,8 +1,10 @@
-package com.revature.services;
-
-import com.revature.models.User;
+package dev.crawford.services;
 
 import java.util.Optional;
+
+import dev.crawford.services.UserService;
+import dev.crawford.models.User;
+import dev.crawford.repositories.UserDAO;
 
 /**
  * The AuthService should handle login and registration for the ERS application.
@@ -27,8 +29,20 @@ public class AuthService {
      *     <li>Must return user object if the user logs in successfully.</li>
      * </ul>
      */
-    public User login(String username, String password) {
-        return null;
+    private UserDAO userDAO = new UserDAO();
+
+    public boolean login(String username, String password) {
+
+        User u = userDAO.getByUsername(username);
+
+        if (u != null) {
+
+            if (username.equals(u.getUsername()) && password.equals(u.getPassword())) {
+                return true;
+            }
+        }
+        System.out.println("Credentials do not match");
+        return false;
     }
 
     /**
@@ -56,4 +70,5 @@ public class AuthService {
     public Optional<User> exampleRetrieveCurrentUser() {
         return Optional.empty();
     }
+
 }

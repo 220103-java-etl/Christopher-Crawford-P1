@@ -1,4 +1,4 @@
-package com.revature.models;
+package dev.crawford.models;
 
 /**
  * This concrete Reimbursement class can include additional fields that can be used for
@@ -20,7 +20,7 @@ public class Reimbursement extends AbstractReimbursement {
     }
 
     /**
-     * This includes the minimum parameters needed for the {@link com.revature.models.AbstractReimbursement} class.
+     * This includes the minimum parameters needed for the {@link dev.crawford.models.AbstractReimbursement} class.
      * If other fields are needed, please create additional constructors.
      */
     public Reimbursement(int id, Status status, User author, User resolver, double amount) {
