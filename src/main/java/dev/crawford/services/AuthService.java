@@ -2,7 +2,6 @@ package dev.crawford.services;
 
 import java.util.Optional;
 
-import dev.crawford.services.UserService;
 import dev.crawford.models.User;
 import dev.crawford.repositories.UserDAO;
 
@@ -33,7 +32,7 @@ public class AuthService {
 
     public boolean login(String username, String password) {
 
-        User u = userDAO.getByUsername(username);
+        User u = UserDAO.getByUsername(username);
 
         if (u != null) {
 

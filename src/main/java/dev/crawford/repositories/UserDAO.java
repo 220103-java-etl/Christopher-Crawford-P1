@@ -74,7 +74,20 @@ public class UserDAO {
      * Note: The userToBeRegistered will have an id=0, and username and password will not be null.
      * Additional fields may be null.
      */
-    public User create(User userToBeRegistered) {
+    public static User create(User userToBeRegistered) {
+        String sql = "insert into users (id, first_name, last_name, username, passwrd, role) values (default, ?, ?, ?, ?, ?)";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, userToBeRegistered.getFirstName());
+            ps.setString(2, userToBeRegistered.getLastName());
+            ps.setString(3, userToBeRegistered.getUsername());
+            ps.setString(4, userToBeRegistered.getPassword());
+            ps.setString(5, userToBeRegistered.getRole());
+            ps.executeUpdate();
+            return userToBeRegistered;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         return userToBeRegistered;
     }
 }

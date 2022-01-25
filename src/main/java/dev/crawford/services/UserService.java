@@ -1,10 +1,12 @@
 package dev.crawford.services;
 
-import dev.crawford.repositories.UserDAO;
-
-import java.util.Optional;
-
 import dev.crawford.models.User;
+import dev.crawford.util.ConnectionFactory;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * The UserService should handle the processing and retrieval of Users for the ERS application.
@@ -23,5 +25,31 @@ import dev.crawford.models.User;
  */
 public class UserService {
 
+    static ConnectionFactory cu = ConnectionFactory.getInstance();
+
+    public static User getByUsername(String username) {
+        String sql = "select * from users where username = ?";
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User u = new User(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("username"),
+                        rs.getString("passwrd"),
+                        rs.getString("role")
+                );
+                return u;
+            }
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

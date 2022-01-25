@@ -39,14 +39,14 @@ public class AuthServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		EMPLOYEE_TO_REGISTER = new User(0, "genericEmployee1", "genericPassword", Role.EMPLOYEE);
-		GENERIC_EMPLOYEE_1 = new User(1, "genericEmployee1", "genericPassword", Role.EMPLOYEE);
-		GENERIC_FINANCE_MANAGER_1 = new User(1, "genericManager1", "genericPassword", Role.FINANCE_MANAGER);
+		EMPLOYEE_TO_REGISTER = new User(0, "genericEmployee1", "genericPassword", "EMPLOYEE");
+		GENERIC_EMPLOYEE_1 = new User(1, "genericEmployee1", "genericPassword", "EMPLOYEE");
+		GENERIC_FINANCE_MANAGER_1 = new User(1, "genericManager1", "genericPassword", "FINANCE MANAGER");
 	}
 
 	@Test
 	public void testRegisterFailsWhenUsernameIsTaken() {
-		when(userService.getByUsername(anyString())).thenReturn(Optional.of(GENERIC_EMPLOYEE_1));
+		when(userService.getByUsername(anyString())).thenReturn((GENERIC_EMPLOYEE_1));
 		
 		assertThrows(UsernameNotUniqueException.class,
 			() -> authService.register(EMPLOYEE_TO_REGISTER)
@@ -58,7 +58,7 @@ public class AuthServiceTest {
 
 	@Test
 	public void testRegisterPassesWhenUsernameIsNotTaken() {
-		when(userService.getByUsername(anyString())).thenReturn(Optional.empty());
+		when(userService.getByUsername(anyString())).thenReturn(empty());
 		when(userDAO.create(anyObject())).thenReturn(GENERIC_EMPLOYEE_1);
 		
 		assertEquals(GENERIC_EMPLOYEE_1, authService.register(EMPLOYEE_TO_REGISTER));
@@ -67,7 +67,11 @@ public class AuthServiceTest {
 		verify(userDAO).create(EMPLOYEE_TO_REGISTER);
 	}
 
-	@Test
+	private User empty() {
+        return null;
+    }
+
+    @Test
 	public void testRegisterFailsWhenRegistrationIsUnsuccessful() {
 		when(userDAO.create(anyObject())).thenThrow(new RegistrationUnsuccessfulException());
 
@@ -87,7 +91,7 @@ public class AuthServiceTest {
 
 	@Test
 	public void testLoginPassesWhenUsernameDoesExistAndPasswordMatches() {
-		when(userService.getByUsername(anyString())).thenReturn(Optional.of(GENERIC_EMPLOYEE_1));
+		when(userService.getByUsername(anyString())).thenReturn((GENERIC_EMPLOYEE_1));
 
 		assertEquals(GENERIC_EMPLOYEE_1, authService.login(GENERIC_EMPLOYEE_1.getUsername(), GENERIC_EMPLOYEE_1.getPassword()));
 
