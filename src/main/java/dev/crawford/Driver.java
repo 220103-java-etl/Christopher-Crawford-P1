@@ -16,9 +16,10 @@ public class Driver {
 
     public static void main(String[] args) {
 
+
         List<User> users = UserDAO.getAllUsers();
         System.out.println(users);
-
+        /*
         System.out.println("Welcome to the ERS System");
 
         System.out.println("Would you like to login or register?");
@@ -45,7 +46,7 @@ public class Driver {
                 break;
             case "3":
                 System.out.println("Goodbye!");
-                break;
+                return;
             default:
                 System.out.println("Invalid choice, please try again");
                 choice = scanner.nextLine();
@@ -122,6 +123,6 @@ public class Driver {
                 System.out.println("Invalid choice, please try again");
                 lowerRole = scanner.nextLine();
                 return lowerRole = lowerRole.toLowerCase();
-        }
+        }*/
     }
 }

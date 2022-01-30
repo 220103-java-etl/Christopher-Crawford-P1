@@ -47,6 +47,12 @@ public class ConnectionFactory {
 
         Connection conn = null;
 
+        try {
+            Class.forName(dbProps.getProperty("driver"));
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
         String url = dbProps.getProperty("url");
         String username = dbProps.getProperty("username");
         String password = dbProps.getProperty("password");

@@ -28,20 +28,19 @@ public class AuthService {
      *     <li>Must return user object if the user logs in successfully.</li>
      * </ul>
      */
-    private UserDAO userDAO = new UserDAO();
+//    private UserDAO userDAO = new UserDAO();
 
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
 
         User u = UserDAO.getByUsername(username);
 
         if (u != null) {
-
             if (username.equals(u.getUsername()) && password.equals(u.getPassword())) {
-                return true;
+                return u;
             }
         }
         System.out.println("Credentials do not match");
-        return false;
+        return null;
     }
 
     /**
