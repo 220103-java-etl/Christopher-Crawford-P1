@@ -25,19 +25,29 @@ public class AbstractReimbursement {
     private Status status;
     private User author;
     private User resolver;
-    private double amount;
+    private int amount;
+    private String date;
+    private String time;
+    private String location;
+    private String description;
+    private String justification;
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, int amount, String date, String time, String location, String description, String justification) {
         super();
         this.id = id;
         this.status = status;
         this.author = author;
         this.resolver = resolver;
         this.amount = amount;
+        this.date = date;
+        this.time = time;
+        this.location = location;
+        this.description = description;
+        this.justification = justification;
     }
 
     public int getId() {
@@ -72,12 +82,52 @@ public class AbstractReimbursement {
         this.resolver = resolver;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJustification() {
+        return justification;
+    }
+
+    public void setJustification(String justification) {
+        this.justification = justification;
     }
 
     @Override

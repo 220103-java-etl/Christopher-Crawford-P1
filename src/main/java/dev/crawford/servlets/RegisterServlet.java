@@ -28,13 +28,8 @@ public class RegisterServlet extends HttpServlet {
             } catch (Exception e) {
                 System.out.println("User creation unsuccessful");
             }
-            System.out.println("Registration successful");
-            System.out.println(UserDAO.getByUsername(username));    
-        } else {
-            System.out.println("Username already exists");
-            System.out.println(user);
+            System.out.println("Registration successful");    
         }
-
         // Redirect to login page
         response.sendRedirect("index.html");
 
