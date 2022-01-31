@@ -23,7 +23,7 @@ public class Reimbursement extends AbstractReimbursement {
      * This includes the minimum parameters needed for the {@link dev.crawford.models.AbstractReimbursement} class.
      * If other fields are needed, please create additional constructors.
      */
-    public Reimbursement(int id, Status status, User author, User resolver, double amount) {
-        super(id, status, author, resolver, amount);
+    public Reimbursement(int id, Status status, User author, User resolver, int amount, String date, String time, String location, String description, String justification) {
+        super(id, status, author, resolver, amount, date, time, location, description, justification);
     }
 }

@@ -1,19 +1,51 @@
 package dev.crawford.repositories;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import dev.crawford.models.Reimbursement;
 import dev.crawford.models.Status;
+import dev.crawford.models.User;
+import dev.crawford.util.ConnectionFactory;
 
 public class ReimbursementDAO {
+
+    static ConnectionFactory cu = ConnectionFactory.getInstance();
 
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
      */
-    public Optional<Reimbursement> getById(int id) {
-        return Optional.empty();
+    public static Reimbursement getById(int id) {
+        String sql = "select * from reimbursement_requests where id = ?";
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Reimbursement r = new Reimbursement(
+                        rs.getInt("id"),
+                        Status.valueOf(rs.getString("status")),
+                        (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
+                        (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
+                        rs.getInt("cost"),
+                        rs.getString("date"),
+                        rs.getString("time"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("justification")
+                );
+                return r;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -30,7 +62,62 @@ public class ReimbursementDAO {
      *     <li>Should return a Reimbursement object with updated information.</li>
      * </ul>
      */
-    public Reimbursement update(Reimbursement unprocessedReimbursement) {
-    	return null;
+    public static Reimbursement update(Reimbursement unprocessedReimbursement) {
+    	String sql = "insert into reimbursement_requests (id, status, author, resolver, cost, date, time, location, description, justification) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, unprocessedReimbursement.getStatus().toString());
+            ps.setString(2, unprocessedReimbursement.getAuthor().getUsername());
+            ps.setString(3, unprocessedReimbursement.getResolver().getUsername());
+            ps.setDouble(4, unprocessedReimbursement.getAmount());
+            ps.setString(5, unprocessedReimbursement.getDate());
+            ps.setString(6, unprocessedReimbursement.getTime());
+            ps.setString(7, unprocessedReimbursement.getLocation());
+            ps.setString(8, unprocessedReimbursement.getDescription());
+            ps.setString(9, unprocessedReimbursement.getJustification());
+
+
+            ps.executeUpdate();
+            return unprocessedReimbursement;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return unprocessedReimbursement;
+    }
+
+    public static void updateAllowance(Reimbursement newAllowance) {
+
+        String sql = "update users set reimbursement_allowed = ? where id = ?";
+
+        try(Connection conn = cu.getConnection()) {
+
+            User author = UserDAO.getByUsername(newAllowance.getAuthor().getUsername());
+
+            int newAllowanceInt = getAllowance(author) - newAllowance.getAmount();
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, newAllowanceInt);
+            ps.setInt(2, author.getId());
+            ps.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public static int getAllowance(User author) {
+        String sql = "select * from users where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, author.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("reimbursement_allowed");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

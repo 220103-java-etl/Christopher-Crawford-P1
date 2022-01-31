@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css"/>
+    <script src="./js/scripts.js" defer></script>
+    <title>ERS/RequestForm</title>
+</head>
+<body>
+    <form id="requestForm" method="post" action="request" target="_self">
+        <div class="container">
+            <h1 class="header"><strong>Request Form</strong></h1>
+            <p>What date will the course be:</p>
+            <input type="text" id="date" name="date" placeholder="mm / dd / year" required>
+            <p>What time will the course be:</p>
+            <input type="text" id="time" name="time" placeholder="--:-- --" required>
+            <p>Where is the course located:</p>
+            <input type="text" id="location" name="location" placeholder="Location" required>
+            <p>Course content covers:</p>
+            <input type="text" id="description" name="description" placeholder="Description" required>
+            <p>How much does the course cost:</p>
+            <input type="text" id="cost" name="cost" placeholder="Cost" required>
+            <p>Please describe work related content:</p>
+            <textarea type="text" id="justification" name="justification" placeholder="Work Justification" required></textarea>
+            <input class="button" id="submitRequest" type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+</html>
