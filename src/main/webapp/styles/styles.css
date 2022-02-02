@@ -98,27 +98,28 @@ body {
 
 #loginBtn, 
     #requestFormButton,
-    #backBtn {
+    #myRequestsBtn,
+    #backToEmployeeBtn,
+    #submitRequest {
         background: #1c80c2;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-#exitFormButton {
-    margin-top: 0px;
-    transform: translate(600%, 100%);
-}
-
 #signUpBtn,
-    #submitRequest, 
-    #backBtn {
+    #submitRequest,
+    #backToEmployeeBtn {
         background: #1c80c2;
         text-decoration: none;
         font-weight:800;
         padding: 5px 30px;
 }
 
-#submitRequest {
-    margin-top: 10px;
-    margin-bottom: 3px;
-    transform: translate(0, 50%);
+#backToEmployeeBtn,
+    #submitRequest {
+        margin-top: 30px;
+        margin-bottom: 0px;
+}
+
+textarea {
+    resize: none;
 }

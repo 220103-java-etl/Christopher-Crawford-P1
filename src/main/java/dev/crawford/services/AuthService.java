@@ -28,7 +28,6 @@ public class AuthService {
      *     <li>Must return user object if the user logs in successfully.</li>
      * </ul>
      */
-//    private UserDAO userDAO = new UserDAO();
 
     public User login(String username, String password) {
 
@@ -56,8 +55,9 @@ public class AuthService {
      * Note: userToBeRegistered will have an id=0, additional fields may be null.
      * After registration, the id will be a positive integer.
      */
-    public User register(User userToBeRegistered) {
-        return null;
+    public static User register(User userToBeRegistered) {
+
+            return null;
     }
 
     /**
