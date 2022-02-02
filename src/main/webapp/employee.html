@@ -8,9 +8,12 @@
     <script src="./js/scripts.js" defer></script>
     <title>ERS/Employee</title>
 </head>
-<body>
-    <h2>Your Name Here</h2>
-    <a class="button" id="requestFormButton" href="viewmyrequests.html" style="text-decoration: none;">View Requests</a>
+<body onload="currentUserName()">
+    <h2 id="currentUserName">Your Name Here</h2>
+
+    <section id="myRequests">
+        <button id="myRequestsBtn" onclick="getRequests()" class="button">My Requests</button>
+    </section>
     <a class="button" id="requestFormButton" href="requestform.html" style="text-decoration: none;">Request Form</a>
 </body>
 </html>

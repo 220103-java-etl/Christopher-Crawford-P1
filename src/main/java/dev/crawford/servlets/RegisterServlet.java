@@ -2,6 +2,7 @@ package dev.crawford.servlets;
 
 import dev.crawford.models.User;
 import dev.crawford.repositories.UserDAO;
+import dev.crawford.services.AuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -23,13 +24,12 @@ public class RegisterServlet extends HttpServlet {
         if(user == null) {
             try {
                 User newUser = new User(0, firstName, lastName, username, password, "EMPLOYEE");
-                UserDAO.create(newUser);
-                System.out.println("User created successfully");
+                AuthService.register(newUser);
             } catch (Exception e) {
                 System.out.println("User creation unsuccessful");
-            }
-            System.out.println("Registration successful");    
+            }   
         }
+        System.out.println("Username already exists");
         // Redirect to login page
         response.sendRedirect("index.html");
 

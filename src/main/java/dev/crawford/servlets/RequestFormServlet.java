@@ -4,7 +4,6 @@ import dev.crawford.models.Reimbursement;
 import dev.crawford.models.Status;
 import dev.crawford.models.User;
 import dev.crawford.repositories.ReimbursementDAO;
-import dev.crawford.repositories.UserDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -18,8 +17,6 @@ public class RequestFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         
-
-
         HttpSession session = request.getSession(false);
         
         // Add reimbursement to database

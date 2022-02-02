@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import dev.crawford.models.Reimbursement;
 import dev.crawford.models.Status;
@@ -52,6 +52,30 @@ public class ReimbursementDAO {
      * Should retrieve a List of Reimbursements from the DB with the corresponding Status or an empty List if there are no matches.
      */
     public List<Reimbursement> getByStatus(Status status) {
+        String sql = "select * from reimbursement_requests where status = ?";
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, status.toString());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Reimbursement r = new Reimbursement(
+                        rs.getInt("id"),
+                        Status.valueOf(rs.getString("status")),
+                        (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
+                        (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
+                        rs.getInt("cost"),
+                        rs.getString("date"),
+                        rs.getString("time"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("justification")
+                );
+                return Collections.singletonList(r);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Collections.emptyList();
     }
 
@@ -76,7 +100,6 @@ public class ReimbursementDAO {
             ps.setString(8, unprocessedReimbursement.getDescription());
             ps.setString(9, unprocessedReimbursement.getJustification());
 
-
             ps.executeUpdate();
             return unprocessedReimbursement;
             } catch (SQLException e) {
@@ -94,6 +117,10 @@ public class ReimbursementDAO {
             User author = UserDAO.getByUsername(newAllowance.getAuthor().getUsername());
 
             int newAllowanceInt = getAllowance(author) - newAllowance.getAmount();
+
+            if (getAllowance(author) < newAllowance.getAmount()) {
+                newAllowanceInt = 0;
+            }
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, newAllowanceInt);
@@ -119,5 +146,34 @@ public class ReimbursementDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static List<Reimbursement> getByUser(String author) {
+        List<Reimbursement> reimbursements = new ArrayList<>();
+        String sql = "select * from reimbursement_requests where author = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, author);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Reimbursement r = new Reimbursement(
+                        rs.getInt("id"),
+                        Status.valueOf(rs.getString("status")),
+                        (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
+                        (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
+                        rs.getInt("cost"),
+                        rs.getString("date"),
+                        rs.getString("time"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("justification")
+                );
+                reimbursements.add(r);
+            }
+            return reimbursements;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 }

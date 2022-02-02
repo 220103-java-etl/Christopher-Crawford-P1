@@ -13,18 +13,19 @@
         <div class="container">
             <h1 class="header"><strong>Request Form</strong></h1>
             <p>What date will the course be:</p>
-            <input type="text" id="date" name="date" placeholder="mm / dd / year" required>
+            <input type="date" id="date" name="date"  required>
             <p>What time will the course be:</p>
-            <input type="text" id="time" name="time" placeholder="--:-- --" required>
+            <input type="time" id="time" name="time"  required>
             <p>Where is the course located:</p>
             <input type="text" id="location" name="location" placeholder="Location" required>
-            <p>Course content covers:</p>
+            <p>What is Course Name:</p>
             <input type="text" id="description" name="description" placeholder="Description" required>
             <p>How much does the course cost:</p>
-            <input type="text" id="cost" name="cost" placeholder="Cost" required>
+            <input type="number" id="cost" name="cost" placeholder="Cost" required>
             <p>Please describe work related content:</p>
             <textarea type="text" id="justification" name="justification" placeholder="Work Justification" required></textarea>
             <input class="button" id="submitRequest" type="submit" value="Submit">
+            <a class="button" id="backToEmployeeBtn" href="employee.html" style="text-decoration: none;">Go Back</a>
         </div>
     </form>
 </body>
