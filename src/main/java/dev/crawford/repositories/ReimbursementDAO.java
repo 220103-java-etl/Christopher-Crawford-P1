@@ -32,12 +32,13 @@ public class ReimbursementDAO {
                         Status.valueOf(rs.getString("status")),
                         (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
                         (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
-                        rs.getInt("cost"),
+                        rs.getDouble("cost"),
                         rs.getString("date"),
                         rs.getString("time"),
                         rs.getString("location"),
                         rs.getString("description"),
-                        rs.getString("justification")
+                        rs.getString("justification"),
+                        rs.getDouble("courseType")
                 );
                 return r;
             }
@@ -63,12 +64,13 @@ public class ReimbursementDAO {
                         Status.valueOf(rs.getString("status")),
                         (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
                         (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
-                        rs.getInt("cost"),
+                        rs.getDouble("cost"),
                         rs.getString("date"),
                         rs.getString("time"),
                         rs.getString("location"),
                         rs.getString("description"),
-                        rs.getString("justification")
+                        rs.getString("justification"),
+                        rs.getDouble("courseType")
                 );
                 return Collections.singletonList(r);
             }
@@ -86,19 +88,20 @@ public class ReimbursementDAO {
      *     <li>Should return a Reimbursement object with updated information.</li>
      * </ul>
      */
-    public static Reimbursement update(Reimbursement unprocessedReimbursement) {
-    	String sql = "insert into reimbursement_requests (id, status, author, resolver, cost, date, time, location, description, justification) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static Reimbursement create(Reimbursement unprocessedReimbursement) {
+    	String sql = "insert into reimbursement_requests (id, status, author, resolver, cost, date, time, location, description, justification, course_type) values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, unprocessedReimbursement.getStatus().toString());
             ps.setString(2, unprocessedReimbursement.getAuthor().getUsername());
             ps.setString(3, unprocessedReimbursement.getResolver().getUsername());
-            ps.setDouble(4, unprocessedReimbursement.getAmount());
+            ps.setString(4, unprocessedReimbursement.getAmount().toString());
             ps.setString(5, unprocessedReimbursement.getDate());
             ps.setString(6, unprocessedReimbursement.getTime());
             ps.setString(7, unprocessedReimbursement.getLocation());
             ps.setString(8, unprocessedReimbursement.getDescription());
             ps.setString(9, unprocessedReimbursement.getJustification());
+            ps.setString(10, unprocessedReimbursement.getCourseType().toString());
 
             ps.executeUpdate();
             return unprocessedReimbursement;
@@ -108,7 +111,24 @@ public class ReimbursementDAO {
         return unprocessedReimbursement;
     }
 
-    public static void updateAllowance(Reimbursement newAllowance) {
+    public static Reimbursement update(Reimbursement unprocessedReimbursement) {
+    	String sql = "update reimbursement_requests SET resolver = ?, cost = ?, grade = ? where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, unprocessedReimbursement.getResolver().getUsername());
+            ps.setString(2, unprocessedReimbursement.getAmount().toString());
+            ps.setString(3, unprocessedReimbursement.getGrade());
+            ps.setInt(4, unprocessedReimbursement.getId());
+
+            ps.executeUpdate();
+            return unprocessedReimbursement;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return unprocessedReimbursement;
+    }
+
+    public static void updateAllowance(Reimbursement newAllowance, double costPercentage) {
 
         String sql = "update users set reimbursement_allowed = ? where id = ?";
 
@@ -116,14 +136,14 @@ public class ReimbursementDAO {
 
             User author = UserDAO.getByUsername(newAllowance.getAuthor().getUsername());
 
-            int newAllowanceInt = getAllowance(author) - newAllowance.getAmount();
+            int newAllowanceDbl = (int) (getAllowance(author) - (newAllowance.getAmount() * costPercentage));
 
             if (getAllowance(author) < newAllowance.getAmount()) {
-                newAllowanceInt = 0;
+                newAllowanceDbl = 0;
             }
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, newAllowanceInt);
+            ps.setDouble(1, newAllowanceDbl);
             ps.setInt(2, author.getId());
             ps.executeUpdate();
 
@@ -161,12 +181,13 @@ public class ReimbursementDAO {
                         Status.valueOf(rs.getString("status")),
                         (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
                         (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
-                        rs.getInt("cost"),
+                        rs.getDouble("cost"),
                         rs.getString("date"),
                         rs.getString("time"),
                         rs.getString("location"),
                         rs.getString("description"),
-                        rs.getString("justification")
+                        rs.getString("justification"),
+                        rs.getDouble("course_type")
                 );
                 reimbursements.add(r);
             }

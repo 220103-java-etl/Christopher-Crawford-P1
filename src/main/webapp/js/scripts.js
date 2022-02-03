@@ -2,6 +2,7 @@
 // index.html --------------------
 //--------------------------------
 function currentUserName() {
+    document.getElementById("updateForm").style.display="none";
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -23,6 +24,7 @@ function getRequests() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let response = JSON.parse(xhr.responseText);
+            console.log(response);
 
             let body = document.getElementsByTagName('body')[0];
             let table = document.createElement('table');
@@ -64,12 +66,38 @@ function getRequests() {
                 td.innerHTML = response[i].status;
                 tr.appendChild(td);
                 tbody.appendChild(tr);
+
+                let button = document.createElement('button');
+                button.setAttribute('id', "editButton" + i);
+                button.setAttribute('onclick', "editRequest(" + i + ")");
+                button.innerHTML = "Edit";
+                tr.appendChild(button);
             }
             table.appendChild(tbody);
             body.appendChild(table);
         }
     };
 
+    xhr.open("GET", "http://localhost:8080/ERS/viewRequests", true);
+    xhr.send();
+}
+
+function editRequest(id) {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let response = JSON.parse(xhr.responseText);
+            document.getElementById('requestId').value = (response[id].id);
+            document.getElementById('date').value = (response[id].date);
+            document.getElementById('time').value = (response[id].time);
+            document.getElementById('location').value = (response[id].location);
+            document.getElementById('description').value = (response[id].description);
+            document.getElementById('courseType').value = String(response[id].courseType);
+            document.getElementById('cost').value = (response[id].amount);
+            document.getElementById('justification').value = (response[id].justification);
+            document.getElementById("updateForm").style.display="block";
+        }
+    };
     xhr.open("GET", "http://localhost:8080/ERS/viewRequests", true);
     xhr.send();
 }

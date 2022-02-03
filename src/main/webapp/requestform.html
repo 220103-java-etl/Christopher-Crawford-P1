@@ -10,7 +10,7 @@
 </head>
 <body>
     <form id="requestForm" method="post" action="request" target="_self">
-        <div class="container">
+        <div class="container" id="requestFormPage">
             <h1 class="header"><strong>Request Form</strong></h1>
             <p>What date will the course be:</p>
             <input type="date" id="date" name="date"  required>
@@ -20,8 +20,19 @@
             <input type="text" id="location" name="location" placeholder="Location" required>
             <p>What is Course Name:</p>
             <input type="text" id="description" name="description" placeholder="Description" required>
+            <div id="courseTypeDiv">
+                <label for="courseType">What is the course type:</label>
+                <select name="courseType" id="courseType">
+                    <option value="0.8">University Courses 80%</option>
+                    <option value="0.6">Seminars 60%</option>
+                    <option value="0.75">Certification Preparation Classes 75%</option>
+                    <option value="1.0">Certification 100%</option>
+                    <option value="0.9">Technical Training 90%</option>
+                    <option value="0.3">Other 30%</option>
+                </select> 
+            </div>
             <p>How much does the course cost:</p>
-            <input type="number" id="cost" name="cost" placeholder="Cost" required>
+            <input type="number" step="0.01" id="cost" name="cost" placeholder="Cost" required>
             <p>Please describe work related content:</p>
             <textarea type="text" id="justification" name="justification" placeholder="Work Justification" required></textarea>
             <input class="button" id="submitRequest" type="submit" value="Submit">

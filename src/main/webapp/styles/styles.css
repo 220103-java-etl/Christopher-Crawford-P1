@@ -16,7 +16,8 @@ body {
 }
 
 #loginForm, 
-    #requestForm {
+    #requestForm,
+    #updateForm {
         position: relative;
         width: 100%;
         height: 100%;
@@ -26,7 +27,12 @@ body {
 }
 
 #requestForm {
-    transform: translate(0, 15%);
+    transform: translate(0, 17%);
+}
+
+#updateForm {
+    position: absolute;
+    transform: translate(25%, -10%);
 }
 
 .header {
@@ -55,7 +61,8 @@ body {
     #location,
     #description,
     #cost,
-    #justification {
+    #justification,
+    #courseType {
         background:#ebf0f1;
         font-size:1.1em;
         border: #ccc 1px solid;
@@ -73,6 +80,10 @@ body {
     #cost,
     #justification {
             margin-top:3px;
+}
+
+#courseTypeDiv {
+    margin-top: 20px;
 }
 
 #password {

@@ -25,6 +25,11 @@
         <servlet-name>CurrentUser</servlet-name>
         <servlet-class>dev.crawford.servlets.CurrentUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateRequestServlet</servlet-name>
+        <servlet-class>dev.crawford.servlets.UpdateRequestServlet</servlet-class>
+    </servlet>
+
     
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -45,6 +50,10 @@
     <servlet-mapping>
         <servlet-name>CurrentUser</servlet-name>
         <url-pattern>/currentUserName</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateRequestServlet</servlet-name>
+        <url-pattern>/updateRequest</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
