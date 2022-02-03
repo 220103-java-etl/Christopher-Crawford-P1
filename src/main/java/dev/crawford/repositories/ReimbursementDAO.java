@@ -153,14 +153,14 @@ public class ReimbursementDAO {
 
             User author = UserDAO.getByUsername(newAllowance.getAuthor().getUsername());
 
-            int newAllowanceDbl = (int) (getAllowance(author) - Math.round(newAllowance.getAmount() * costPercentage));
+            int newAllowanceInt = (int) (getAllowance(author) - Math.round(newAllowance.getAmount() * costPercentage));
 
             if (getAllowance(author) < newAllowance.getAmount()) {
-                newAllowanceDbl = 0;
+                newAllowanceInt = 0;
             }
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setDouble(1, newAllowanceDbl);
+            ps.setDouble(1, newAllowanceInt);
             ps.setInt(2, author.getId());
             ps.executeUpdate();
 
@@ -175,10 +175,14 @@ public class ReimbursementDAO {
 
         try(Connection conn = cu.getConnection()) {
 
-            int newAllowanceDbl = (int) (getAllowance(author) + Math.round(cost * oldReimbursement.getCourseType()));
+            int newAllowanceInt = (int) (getAllowance(author) + Math.round(cost * oldReimbursement.getCourseType()));
+
+            if (newAllowanceInt > 1000) {
+                newAllowanceInt = 1000;
+            }
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setDouble(1, newAllowanceDbl);
+            ps.setDouble(1, newAllowanceInt);
             ps.setInt(2, author.getId());
             ps.executeUpdate();
 
