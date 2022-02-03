@@ -25,18 +25,20 @@ public class AbstractReimbursement {
     private Status status;
     private User author;
     private User resolver;
-    private int amount;
+    private Double amount;
     private String date;
     private String time;
     private String location;
     private String description;
     private String justification;
+    private Double courseType;
+    private String grade;
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, int amount, String date, String time, String location, String description, String justification) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, Double amount, String date, String time, String location, String description, String justification, Double courseType) {
         super();
         this.id = id;
         this.status = status;
@@ -48,6 +50,17 @@ public class AbstractReimbursement {
         this.location = location;
         this.description = description;
         this.justification = justification;
+        this.courseType = courseType;
+    }
+
+    public AbstractReimbursement(int id, Status status, User author, User resolver, Double amount, String grade) {
+        super();
+        this.id = id;
+        this.status = status;
+        this.author = author;
+        this.resolver = resolver;
+        this.amount = amount;
+        this.grade = grade;
     }
 
     public int getId() {
@@ -82,11 +95,11 @@ public class AbstractReimbursement {
         this.resolver = resolver;
     }
 
-    public int getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -128,6 +141,22 @@ public class AbstractReimbursement {
 
     public void setJustification(String justification) {
         this.justification = justification;
+    }
+
+    public Double getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(Double courseType) {
+        this.courseType = courseType;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     @Override

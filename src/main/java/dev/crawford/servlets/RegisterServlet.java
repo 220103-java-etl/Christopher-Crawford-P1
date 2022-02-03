@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
         if(user == null) {
             try {
                 User newUser = new User(0, firstName, lastName, username, password, "EMPLOYEE");
-                AuthService.register(newUser);
+                UserDAO.create(newUser);
             } catch (Exception e) {
                 System.out.println("User creation unsuccessful");
             }   

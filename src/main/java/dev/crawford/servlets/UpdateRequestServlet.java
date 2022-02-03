@@ -11,40 +11,34 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class RequestFormServlet extends HttpServlet {
+public class UpdateRequestServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        
+
         HttpSession session = request.getSession(false);
         
-        // Add reimbursement to database
+        // Update reimbursement in database
         if(session == null){
             // no session, so we can't get the user object
             PrintWriter out = response.getWriter();
             out.write("<h3>You should access this from the login page only</h3>");
             out.write("<a href='index.html'>Click Here</a>");
         } else {
-            String date = request.getParameter("date");
-            String time = request.getParameter("time");
-            String location = request.getParameter("location");
-            String description = request.getParameter("description");
+
             Double cost = Double.parseDouble(request.getParameter("cost"));
-            String justification = request.getParameter("justification");
-            Double courseType = Double.parseDouble(request.getParameter("courseType"));
-
-            Double costPercentage = Double.parseDouble(request.getParameter("courseType"));
-
+            String grade = request.getParameter("grade");
+            int reimbursementId = Integer.parseInt(request.getParameter("requestId")) ;
+            
             User author = (User) session.getAttribute("user");
             
             Status status = Status.PENDING;
 
             User resolver = new User();
         try {
-            Reimbursement newReimbursement = new Reimbursement(0, status, author, resolver, cost, date, time, location, description, justification, courseType);
-            ReimbursementDAO.create(newReimbursement);
-            ReimbursementDAO.updateAllowance(newReimbursement, costPercentage);
+            Reimbursement newReimbursement = new Reimbursement(reimbursementId, status, author, resolver, cost, grade);
+            System.out.println(newReimbursement);
+            ReimbursementDAO.update(newReimbursement);
             response.sendRedirect("employee.html"); 
         } catch (Exception e) {
             e.printStackTrace();
