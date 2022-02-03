@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class UpdateRequestServlet extends HttpServlet {
+public class UpdateAllRequestServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,19 +28,23 @@ public class UpdateRequestServlet extends HttpServlet {
         } else {
 
             Double cost = Double.parseDouble(request.getParameter("cost"));
-            String grade = request.getParameter("grade");
             int reimbursementId = Integer.parseInt(request.getParameter("requestId")) ;
-            
-            User author = (User) session.getAttribute("user");
-            
-            Status status = Status.PENDING;
+            String getStatus = request.getParameter("status");
+            User resolver = (User) session.getAttribute("user");
 
-            User resolver = new User();
+            Status status = null;
+            
+            if(getStatus.equals("APPROVED")){
+                status = Status.APPROVED;
+            } else if(getStatus.equals("DENIED")){
+                status = Status.DENIED;
+            }
+
         try {
-            Reimbursement newReimbursement = new Reimbursement(reimbursementId, status, author, resolver, cost, grade);
-            ReimbursementDAO.userUpdate(newReimbursement);
+            Reimbursement newReimbursement = new Reimbursement(reimbursementId, status, resolver, cost);
+            ReimbursementDAO.update(newReimbursement);
 
-            User userRole = UserDAO.getByUsername(author.getUsername());
+            User userRole = UserDAO.getByUsername(resolver.getUsername());
             String role = userRole.getRole();
             if(role.equals("EMPLOYEE")) { 
                 response.sendRedirect("employee.html");

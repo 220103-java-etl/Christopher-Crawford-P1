@@ -38,7 +38,8 @@ public class ReimbursementDAO {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("justification"),
-                        rs.getDouble("courseType")
+                        rs.getDouble("courseType"),
+                        rs.getString("grade")
                 );
                 return r;
             }
@@ -70,7 +71,8 @@ public class ReimbursementDAO {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("justification"),
-                        rs.getDouble("courseType")
+                        rs.getDouble("courseType"),
+                        rs.getString("grade")
                 );
                 return Collections.singletonList(r);
             }
@@ -111,13 +113,29 @@ public class ReimbursementDAO {
         return unprocessedReimbursement;
     }
 
-    public static Reimbursement update(Reimbursement unprocessedReimbursement) {
-    	String sql = "update reimbursement_requests SET resolver = ?, cost = ?, grade = ? where id = ?";
+    public static Reimbursement userUpdate(Reimbursement unprocessedReimbursement) {
+    	String sql = "update reimbursement_requests SET grade = ? where id = ?";
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, unprocessedReimbursement.getResolver().getUsername());
-            ps.setString(2, unprocessedReimbursement.getAmount().toString());
-            ps.setString(3, unprocessedReimbursement.getGrade());
+            ps.setString(1, unprocessedReimbursement.getGrade());
+            ps.setInt(2, unprocessedReimbursement.getId());
+
+            ps.executeUpdate();
+            return unprocessedReimbursement;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return unprocessedReimbursement;
+    }
+
+    public static Reimbursement update(Reimbursement unprocessedReimbursement) {
+    	String sql = "update reimbursement_requests SET status = ?, resolver = ?, cost = ? where id = ?";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, unprocessedReimbursement.getStatus().toString());
+            System.out.println(unprocessedReimbursement.getStatus().toString());
+            ps.setString(2, unprocessedReimbursement.getResolver().getUsername());
+            ps.setString(3, unprocessedReimbursement.getAmount().toString());
             ps.setInt(4, unprocessedReimbursement.getId());
 
             ps.executeUpdate();
@@ -187,7 +205,38 @@ public class ReimbursementDAO {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("justification"),
-                        rs.getDouble("course_type")
+                        rs.getDouble("course_type"),
+                        rs.getString("grade")
+                );
+                reimbursements.add(r);
+            }
+            return reimbursements;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public static List<Reimbursement> getAll() {
+        List<Reimbursement> reimbursements = new ArrayList<>();
+        String sql = "select * from reimbursement_requests";
+        try(Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Reimbursement r = new Reimbursement(
+                        rs.getInt("id"),
+                        Status.valueOf(rs.getString("status")),
+                        (rs.getString("author") == null) ? null : UserDAO.getByUsername(rs.getString("author")),
+                        (rs.getString("resolver") == null) ? null : UserDAO.getByUsername(rs.getString("resolver")),
+                        rs.getDouble("cost"),
+                        rs.getString("date"),
+                        rs.getString("time"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("justification"),
+                        rs.getDouble("course_type"),
+                        rs.getString("grade")
                 );
                 reimbursements.add(r);
             }

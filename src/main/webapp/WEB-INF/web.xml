@@ -29,6 +29,14 @@
         <servlet-name>UpdateRequestServlet</servlet-name>
         <servlet-class>dev.crawford.servlets.UpdateRequestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewAllRequests</servlet-name>
+        <servlet-class>dev.crawford.servlets.ViewAllRequestsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAllRequest</servlet-name>
+        <servlet-class>dev.crawford.servlets.UpdateAllRequestServlet</servlet-class>
+    </servlet>
 
     
     <servlet-mapping>
@@ -54,6 +62,14 @@
     <servlet-mapping>
         <servlet-name>UpdateRequestServlet</servlet-name>
         <url-pattern>/updateRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAllRequests</servlet-name>
+        <url-pattern>/viewAllRequests</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAllRequest</servlet-name>
+        <url-pattern>/updateAllRequest</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

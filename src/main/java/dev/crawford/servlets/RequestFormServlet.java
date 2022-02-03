@@ -40,9 +40,11 @@ public class RequestFormServlet extends HttpServlet {
             
             Status status = Status.PENDING;
 
+            String grade = null;
+
             User resolver = new User();
         try {
-            Reimbursement newReimbursement = new Reimbursement(0, status, author, resolver, cost, date, time, location, description, justification, courseType);
+            Reimbursement newReimbursement = new Reimbursement(0, status, author, resolver, cost, date, time, location, description, justification, courseType, grade);
             ReimbursementDAO.create(newReimbursement);
             ReimbursementDAO.updateAllowance(newReimbursement, costPercentage);
             response.sendRedirect("employee.html"); 
