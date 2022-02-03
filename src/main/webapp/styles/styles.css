@@ -19,7 +19,7 @@ body {
     #requestForm,
     #updateForm {
         position: relative;
-        width: 100%;
+        width: 50%;
         height: 100%;
         margin: 0 auto 0 auto;
         padding: 0;
@@ -32,7 +32,7 @@ body {
 
 #updateForm {
     position: absolute;
-    transform: translate(25%, -10%);
+    transform: translate(100%, -10%);
 }
 
 .header {
@@ -44,7 +44,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-70%);
-    background:white;
+    background-color: white;
     border: #1c80c2 4px solid;
     border-radius:15px;
     width:350px;
@@ -133,4 +133,14 @@ body {
 
 textarea {
     resize: none;
+}
+
+#requestsTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: black 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: aquamarine;
+    margin-left: 15%;
 }

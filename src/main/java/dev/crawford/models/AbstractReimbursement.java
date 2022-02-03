@@ -38,7 +38,7 @@ public class AbstractReimbursement {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, Double amount, String date, String time, String location, String description, String justification, Double courseType) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, Double amount, String date, String time, String location, String description, String justification, Double courseType, String grade) {
         super();
         this.id = id;
         this.status = status;
@@ -51,6 +51,7 @@ public class AbstractReimbursement {
         this.description = description;
         this.justification = justification;
         this.courseType = courseType;
+        this.grade = grade;
     }
 
     public AbstractReimbursement(int id, Status status, User author, User resolver, Double amount, String grade) {
@@ -61,6 +62,14 @@ public class AbstractReimbursement {
         this.resolver = resolver;
         this.amount = amount;
         this.grade = grade;
+    }
+
+    public AbstractReimbursement(int id, Status status, User resolver, Double amount) {
+        super();
+        this.id = id;
+        this.status = status;
+        this.resolver = resolver;
+        this.amount = amount;
     }
 
     public int getId() {

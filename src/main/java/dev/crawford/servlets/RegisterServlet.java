@@ -2,7 +2,6 @@ package dev.crawford.servlets;
 
 import dev.crawford.models.User;
 import dev.crawford.repositories.UserDAO;
-import dev.crawford.services.AuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -29,7 +28,7 @@ public class RegisterServlet extends HttpServlet {
                 System.out.println("User creation unsuccessful");
             }   
         }
-        System.out.println("Username already exists");
+
         // Redirect to login page
         response.sendRedirect("index.html");
 
