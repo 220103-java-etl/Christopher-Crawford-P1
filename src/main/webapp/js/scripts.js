@@ -177,7 +177,9 @@ function editAllRequest(id) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let response = JSON.parse(xhr.responseText);
+            console.log(response);
             document.getElementById('requestId').value = (response[id].id);
+            document.getElementById('username').value = (response[id].author.username);
             document.getElementById('date').value = (response[id].date);
             document.getElementById('time').value = (response[id].time);
             document.getElementById('location').value = (response[id].location);

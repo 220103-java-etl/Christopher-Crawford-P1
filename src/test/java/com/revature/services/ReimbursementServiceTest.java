@@ -5,14 +5,12 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dev.crawford.models.Reimbursement;
-import dev.crawford.models.Role;
 import dev.crawford.models.Status;
 import dev.crawford.models.User;
 import dev.crawford.repositories.ReimbursementDAO;

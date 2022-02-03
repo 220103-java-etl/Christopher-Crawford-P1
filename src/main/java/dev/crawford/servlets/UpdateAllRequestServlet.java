@@ -30,6 +30,7 @@ public class UpdateAllRequestServlet extends HttpServlet {
             Double cost = Double.parseDouble(request.getParameter("cost"));
             int reimbursementId = Integer.parseInt(request.getParameter("requestId")) ;
             String getStatus = request.getParameter("status");
+            User author = UserDAO.getByUsername(request.getParameter("username"));
             User resolver = (User) session.getAttribute("user");
 
             Status status = null;
@@ -38,6 +39,8 @@ public class UpdateAllRequestServlet extends HttpServlet {
                 status = Status.APPROVED;
             } else if(getStatus.equals("DENIED")){
                 status = Status.DENIED;
+                Reimbursement oldReimbursement = ReimbursementDAO.getById(reimbursementId);
+                ReimbursementDAO.updateAllowance(cost, author, oldReimbursement);
             }
 
         try {
