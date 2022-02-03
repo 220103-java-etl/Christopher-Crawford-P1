@@ -38,7 +38,7 @@ public class ReimbursementDAO {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("justification"),
-                        rs.getDouble("courseType"),
+                        rs.getDouble("course_type"),
                         rs.getString("grade")
                 );
                 return r;
@@ -71,7 +71,7 @@ public class ReimbursementDAO {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("justification"),
-                        rs.getDouble("courseType"),
+                        rs.getDouble("course_type"),
                         rs.getString("grade")
                 );
                 return Collections.singletonList(r);
@@ -133,7 +133,6 @@ public class ReimbursementDAO {
         try(Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, unprocessedReimbursement.getStatus().toString());
-            System.out.println(unprocessedReimbursement.getStatus().toString());
             ps.setString(2, unprocessedReimbursement.getResolver().getUsername());
             ps.setString(3, unprocessedReimbursement.getAmount().toString());
             ps.setInt(4, unprocessedReimbursement.getId());
@@ -154,11 +153,29 @@ public class ReimbursementDAO {
 
             User author = UserDAO.getByUsername(newAllowance.getAuthor().getUsername());
 
-            int newAllowanceDbl = (int) (getAllowance(author) - (newAllowance.getAmount() * costPercentage));
+            int newAllowanceDbl = (int) (getAllowance(author) - Math.round(newAllowance.getAmount() * costPercentage));
 
             if (getAllowance(author) < newAllowance.getAmount()) {
                 newAllowanceDbl = 0;
             }
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDouble(1, newAllowanceDbl);
+            ps.setInt(2, author.getId());
+            ps.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public static void updateAllowance(double cost, User author, Reimbursement oldReimbursement) {
+
+        String sql = "update users set reimbursement_allowed = ? where id = ?";
+
+        try(Connection conn = cu.getConnection()) {
+
+            int newAllowanceDbl = (int) (getAllowance(author) + Math.round(cost * oldReimbursement.getCourseType()));
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setDouble(1, newAllowanceDbl);
