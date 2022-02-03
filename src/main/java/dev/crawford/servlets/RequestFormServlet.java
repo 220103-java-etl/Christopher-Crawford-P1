@@ -32,9 +32,7 @@ public class RequestFormServlet extends HttpServlet {
             String description = request.getParameter("description");
             Double cost = Double.parseDouble(request.getParameter("cost"));
             String justification = request.getParameter("justification");
-            Double courseType = Double.parseDouble(request.getParameter("courseType"));
-
-            Double costPercentage = Double.parseDouble(request.getParameter("courseType"));
+            Double courseType = Double.parseDouble(request.getParameter("courseType")); // Also pushed into updateAllowance method
 
             User author = (User) session.getAttribute("user");
             
@@ -46,7 +44,7 @@ public class RequestFormServlet extends HttpServlet {
         try {
             Reimbursement newReimbursement = new Reimbursement(0, status, author, resolver, cost, date, time, location, description, justification, courseType, grade);
             ReimbursementDAO.create(newReimbursement);
-            ReimbursementDAO.updateAllowance(newReimbursement, costPercentage);
+            ReimbursementDAO.updateAllowance(newReimbursement, courseType);
             response.sendRedirect("employee.html"); 
         } catch (Exception e) {
             e.printStackTrace();
