@@ -14,8 +14,6 @@ function currentUserName() {
     xhr.send();
 }
 
-
-
 //--------------------------------
 // employee.html -----------------
 //--------------------------------
@@ -24,7 +22,6 @@ function getRequests() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let response = JSON.parse(xhr.responseText);
-            console.log(response);
 
             let body = document.getElementsByTagName('body')[0];
             let table = document.createElement('table');
@@ -111,7 +108,6 @@ function getAllRequests() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let response = JSON.parse(xhr.responseText);
-            console.log(response);
 
             let body = document.getElementsByTagName('body')[0];
             let table = document.createElement('table');
